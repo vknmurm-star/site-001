@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-дайджест для новичков</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- Фоновые декоративные пятна света (чисто визуальный эффект) -->
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="glow glow-3"></div>
+
+    <!-- Шапка сайта -->
+    <header class="hero">
+        <span class="badge">✨ Новый выпуск каждую неделю</span>
+        <h1 class="hero-title">
+            AI-дайджест, <span class="gradient-text">который правда понятен</span>
+        </h1>
+        <p class="hero-subtitle">
+            Простыми словами о нейросетях, промптах и AI-инструментах —
+            без технического жаргона и «воды».
+        </p>
+        <a href="#cards" class="btn btn-primary">Смотреть материалы ↓</a>
+    </header>
+
+    <!-- Сетка карточек с материалами -->
+    <main id="cards" class="cards-section">
+        <h2 class="section-title">Материалы выпуска</h2>
+        <div class="cards-grid">
+            {% for card in cards %}
+            <article class="card" style="--delay: {{ loop.index0 }}">
+                <div class="card-icon">{{ card.icon }}</div>
+                <span class="card-tag">{{ card.tag }}</span>
+                <h3 class="card-title">{{ card.title }}</h3>
+                <p class="card-text">{{ card.text }}</p>
+                <button class="btn btn-card" data-index="{{ loop.index0 }}">
+                    Открыть материал
+                </button>
+            </article>
+            {% endfor %}
+        </div>
+    </main>
+
+    <!-- Блок подписки (просто для вида, ничего никуда не отправляет) -->
+    <section class="subscribe">
+        <h2 class="section-title">Не пропусти новый выпуск</h2>
+        <p class="subscribe-text">Оставь email — будем присылать дайджест раз в неделю.</p>
+        <form id="subscribe-form" class="subscribe-form">
+            <input type="email" id="subscribe-email" placeholder="you@email.com" required>
+            <button type="submit" class="btn btn-primary">Подписаться</button>
+        </form>
+        <p id="subscribe-message" class="subscribe-message"></p>
+    </section>
+
+    <footer class="footer">
+        <p>Сделано с 💜 для тех, кто только начинает разбираться в AI</p>
+    </footer>
+
+    <!-- Модальное окно для полного текста материала -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal">
+            <button id="modal-close" class="modal-close" aria-label="Закрыть">✕</button>
+            <div class="modal-icon" id="modal-icon"></div>
+            <span class="card-tag" id="modal-tag"></span>
+            <h3 id="modal-title" class="modal-title"></h3>
+            <p id="modal-text" class="modal-text"></p>
+        </div>
+    </div>
+
+    <!-- Данные карточек передаются в JS, чтобы модалка знала полный текст -->
+    <script>
+        const cardsData = {{ cards | tojson }};
+    </script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

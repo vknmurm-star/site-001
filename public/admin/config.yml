@@ -1,0 +1,98 @@
+backend:
+  name: github
+  repo: vknmurm-star/ai-digest-flask
+  branch: main
+  base_url: https://YOUR-DOMAIN.example
+  auth_endpoint: api/auth
+
+# Локальная разработка: запустите `npx decap-server` в отдельном терминале,
+# и админка будет писать файлы прямо на диск — без GitHub и без OAuth.
+local_backend: true
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "articles"
+    label: "Статьи"
+    folder: "content/articles"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    extension: "mdx"
+    format: "frontmatter"
+    identifier_field: "title"
+    fields:
+      - { label: "Заголовок", name: "title", widget: "string" }
+      - { label: "Описание (для карточек и SEO)", name: "description", widget: "text" }
+      - label: "Категория"
+        name: "category"
+        widget: "select"
+        options:
+          - { label: "Уход за кожей", value: "skincare" }
+          - { label: "Макияж", value: "makeup" }
+          - { label: "Стиль и гардероб", value: "style" }
+          - { label: "Здоровье и самочувствие", value: "wellness" }
+      - { label: "Теги", name: "tags", widget: "list" }
+      - { label: "Дата публикации", name: "date", widget: "datetime" }
+      - { label: "Подпись на плейсхолдере обложки", name: "coverLabel", widget: "string" }
+      - { label: "Текст статьи", name: "body", widget: "markdown" }
+
+  - name: "categories"
+    label: "Категории"
+    files:
+      - file: "content/categories.json"
+        label: "Список категорий"
+        name: "categories"
+        fields:
+          - label: "Категории"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - label: "Slug"
+                name: "slug"
+                widget: "select"
+                options:
+                  - { label: "Уход за кожей", value: "skincare" }
+                  - { label: "Макияж", value: "makeup" }
+                  - { label: "Стиль и гардероб", value: "style" }
+                  - { label: "Здоровье и самочувствие", value: "wellness" }
+              - { label: "Название (полное)", name: "title", widget: "string" }
+              - { label: "Название (короткое, для меню)", name: "shortTitle", widget: "string" }
+              - { label: "Описание", name: "description", widget: "text" }
+              - label: "Акцентный цвет"
+                name: "accent"
+                widget: "select"
+                options:
+                  - { label: "Терракота", value: "clay" }
+                  - { label: "Пыльная роза", value: "rose" }
+                  - { label: "Золото", value: "gold" }
+                  - { label: "Шалфей", value: "sage" }
+
+  - name: "about"
+    label: "Страница «О проекте»"
+    files:
+      - file: "content/pages/about.mdx"
+        label: "О проекте"
+        name: "about"
+        fields:
+          - { label: "Заголовок", name: "title", widget: "string" }
+          - { label: "Текст страницы", name: "body", widget: "markdown" }
+
+  - name: "homepage"
+    label: "Главная страница"
+    files:
+      - file: "content/settings/homepage.json"
+        label: "Хиро-блок"
+        name: "homepage"
+        fields:
+          - { label: "Надпись над заголовком", name: "eyebrow", widget: "string" }
+          - { label: "Заголовок", name: "heading", widget: "string" }
+          - { label: "Подзаголовок", name: "subheading", widget: "text" }
+          - { label: "Текст основной кнопки", name: "primaryCtaLabel", widget: "string" }
+          - { label: "Ссылка основной кнопки", name: "primaryCtaHref", widget: "string" }
+          - { label: "Текст второй кнопки", name: "secondaryCtaLabel", widget: "string" }
+          - { label: "Ссылка второй кнопки", name: "secondaryCtaHref", widget: "string" }
+          - { label: "Текст в значке", name: "badgeText", widget: "string" }
+          - { label: "Подпись под значком", name: "badgeSubtext", widget: "string" }

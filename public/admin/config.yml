@@ -37,7 +37,30 @@ collections:
       - { label: "Дата публикации", name: "date", widget: "datetime" }
       - { label: "Подпись на плейсхолдере обложки (если нет фото)", name: "coverLabel", widget: "string" }
       - { label: "Фото обложки", name: "coverImage", widget: "image", required: false }
+      - label: "Alt-текст фото (что именно на фото — для SEO и доступности)"
+        name: "coverImageAlt"
+        widget: "string"
+        required: false
+      - label: "SEO-заголовок (до ~60 символов, если отличается от основного)"
+        name: "seoTitle"
+        widget: "string"
+        required: false
+        hint: "Показывается в <title> и результатах поиска. Оставьте пустым, чтобы использовать основной заголовок."
+      - label: "SEO-описание (120–160 символов)"
+        name: "seoDescription"
+        widget: "text"
+        required: false
+        hint: "Показывается в результатах поиска. Оставьте пустым, чтобы использовать «Описание» выше."
       - { label: "Текст статьи", name: "body", widget: "markdown" }
+      - label: "Заголовок пошаговой инструкции (HowTo)"
+        name: "howToTitle"
+        widget: "string"
+        required: false
+        hint: "Заполняйте вместе с полем «Шаги» ниже — только если в статье есть чёткий пошаговый алгоритм."
+      - label: "Шаги (HowTo)"
+        name: "howTo"
+        widget: "list"
+        required: false
 
   - name: "categories"
     label: "Категории"

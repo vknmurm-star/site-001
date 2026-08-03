@@ -1,9 +1,31 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Container from "@/components/Container";
 import ArticleCard from "@/components/ArticleCard";
 import { getAllArticles } from "@/lib/articles";
 import { categories } from "@/lib/categories";
+import { absoluteUrl } from "@/lib/site";
 import homepage from "../../content/settings/homepage.json";
+
+const description =
+  "Практичные разборы ухода за кожей, макияжа и стиля для женщин 40–60 лет — без давления, паники и обещаний вернуть кожу в 25.";
+
+export const metadata: Metadata = {
+  title: homepage.heading,
+  description,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    title: homepage.heading,
+    description,
+    url: absoluteUrl("/"),
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: homepage.heading,
+    description,
+  },
+};
 
 export default function HomePage() {
   const latest = getAllArticles().slice(0, 6);

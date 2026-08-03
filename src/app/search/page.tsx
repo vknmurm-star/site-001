@@ -6,9 +6,19 @@ import { getAllArticles, toSummary } from "@/lib/articles";
 export const metadata: Metadata = {
   title: "Поиск по статьям",
   description: "Найдите статьи по заголовку, теме или тегу.",
+  alternates: { canonical: "/search" },
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
-export default function SearchPage() {
+export default async function SearchPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>;
+}) {
+  const { q } = await searchParams;
   const summaries = getAllArticles().map(toSummary);
 
   return (
@@ -25,7 +35,7 @@ export default function SearchPage() {
         </p>
 
         <div className="mt-10">
-          <SearchClient articles={summaries} />
+          <SearchClient articles={summaries} initialQuery={q ?? ""} />
         </div>
       </Container>
     </section>

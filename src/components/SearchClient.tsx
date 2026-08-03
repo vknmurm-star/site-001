@@ -5,8 +5,14 @@ import ArticleCard from "./ArticleCard";
 import type { ArticleSummary } from "@/lib/articles";
 import { categories } from "@/lib/categories";
 
-export default function SearchClient({ articles }: { articles: ArticleSummary[] }) {
-  const [query, setQuery] = useState("");
+export default function SearchClient({
+  articles,
+  initialQuery = "",
+}: {
+  articles: ArticleSummary[];
+  initialQuery?: string;
+}) {
+  const [query, setQuery] = useState(initialQuery);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   const results = useMemo(() => {

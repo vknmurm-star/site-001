@@ -14,6 +14,11 @@ export interface ArticleFrontmatter {
   date: string;
   coverLabel: string;
   coverImage?: string;
+  coverImageAlt?: string;
+  howToTitle?: string;
+  howTo?: string[];
+  seoTitle?: string;
+  seoDescription?: string;
 }
 
 export interface Article extends ArticleFrontmatter {
@@ -72,6 +77,13 @@ export function getArticlesByCategory(category: CategorySlug): Article[] {
   return getAllArticles().filter((a) => a.category === category);
 }
 
+export function getRelatedArticles(article: Article, limit = 3): Article[] {
+  const others = getAllArticles().filter((a) => a.slug !== article.slug);
+  const sameCategory = others.filter((a) => a.category === article.category);
+  const rest = others.filter((a) => a.category !== article.category);
+  return [...sameCategory, ...rest].slice(0, limit);
+}
+
 export function toSummary(article: Article): ArticleSummary {
   const summary: ArticleSummary = {
     slug: article.slug,
@@ -82,6 +94,7 @@ export function toSummary(article: Article): ArticleSummary {
     date: article.date,
     coverLabel: article.coverLabel,
     coverImage: article.coverImage,
+    coverImageAlt: article.coverImageAlt,
     readingTimeMinutes: article.readingTimeMinutes,
   };
   return summary;

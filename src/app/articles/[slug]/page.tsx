@@ -8,13 +8,16 @@ import CategoryPill from "@/components/CategoryPill";
 import ArticleCover from "@/components/ArticleCover";
 import TableOfContents from "@/components/TableOfContents";
 import ArticleCard from "@/components/ArticleCard";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import {
   extractHeadings,
   formatDate,
   getAllArticles,
   getArticleBySlug,
+  getRelatedArticles,
 } from "@/lib/articles";
 import { getCategory } from "@/lib/categories";
+import { absoluteUrl, SITE_NAME } from "@/lib/site";
 
 export function generateStaticParams() {
   return getAllArticles().map((a) => ({ slug: a.slug }));
@@ -29,15 +32,32 @@ export async function generateMetadata({
   const article = getArticleBySlug(slug);
   if (!article) return {};
 
+  const title = article.seoTitle ?? article.title;
+  const description = article.seoDescription ?? article.description;
+  const path = `/articles/${article.slug}`;
+  const ogImages = article.coverImage
+    ? [{ url: absoluteUrl(article.coverImage), alt: article.coverImageAlt ?? article.title }]
+    : undefined;
+
   return {
-    title: article.title,
-    description: article.description,
+    title,
+    description,
+    alternates: { canonical: path },
     openGraph: {
       type: "article",
-      title: article.title,
-      description: article.description,
+      title,
+      description,
+      url: absoluteUrl(path),
       publishedTime: article.date,
+      modifiedTime: article.date,
       tags: article.tags,
+      images: ogImages,
+    },
+    twitter: {
+      card: article.coverImage ? "summary_large_image" : "summary",
+      title,
+      description,
+      images: ogImages?.map((i) => i.url),
     },
   };
 }
@@ -55,29 +75,67 @@ export default async function ArticlePage({
   if (!category) notFound();
 
   const headings = extractHeadings(article.content);
+  const related = getRelatedArticles(article, 3);
+  const path = `/articles/${article.slug}`;
 
-  const related = getAllArticles()
-    .filter((a) => a.category === article.category && a.slug !== article.slug)
-    .slice(0, 3);
-
-  const jsonLd = {
+  const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: article.title,
     description: article.description,
+    inLanguage: "ru-RU",
     datePublished: article.date,
     dateModified: article.date,
     articleSection: category.title,
     keywords: article.tags.join(", "),
+    url: absoluteUrl(path),
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": absoluteUrl(path),
+    },
     author: {
       "@type": "Organization",
-      name: "Зрелая красота",
+      name: SITE_NAME,
+      url: absoluteUrl("/"),
+    },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      logo: {
+        "@type": "ImageObject",
+        url: absoluteUrl("/opengraph-image"),
+      },
     },
   };
+
+  if (article.coverImage) {
+    jsonLd.image = [absoluteUrl(article.coverImage)];
+  }
+
+  const howToJsonLd =
+    article.howTo && article.howTo.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "HowTo",
+          name: article.howToTitle ?? article.title,
+          step: article.howTo.map((text, index) => ({
+            "@type": "HowToStep",
+            position: index + 1,
+            text,
+          })),
+        }
+      : null;
 
   return (
     <article className="py-12 sm:py-16">
       <Container className="max-w-3xl">
+        <Breadcrumbs
+          items={[
+            { label: "Главная", href: "/" },
+            { label: category.title, href: `/categories/${category.slug}` },
+            { label: article.title, href: path },
+          ]}
+        />
         <CategoryPill category={category} />
         <h1 className="mt-4 font-heading text-3xl font-semibold leading-tight sm:text-4xl">
           {article.title}
@@ -91,6 +149,7 @@ export default async function ArticlePage({
 
         <ArticleCover
           coverImage={article.coverImage}
+          imageAlt={article.coverImageAlt}
           label={article.coverLabel}
           accent={category.accent}
           className="mt-8 aspect-[16/9] w-full"
@@ -132,6 +191,12 @@ export default async function ArticlePage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {howToJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
+        />
+      )}
     </article>
   );
 }

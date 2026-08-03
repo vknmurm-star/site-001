@@ -2,11 +2,17 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Container from "@/components/Container";
 import ArticleCard from "@/components/ArticleCard";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { categories, getCategory } from "@/lib/categories";
 import { getArticlesByCategory } from "@/lib/articles";
+import { absoluteUrl, SITE_NAME } from "@/lib/site";
 
 export function generateStaticParams() {
   return categories.map((c) => ({ slug: c.slug }));
+}
+
+function metaDescriptionFor(description: string): string {
+  return `${description} Практические статьи для женщин 40–60 лет на сайте «${SITE_NAME}».`;
 }
 
 export async function generateMetadata({
@@ -18,9 +24,24 @@ export async function generateMetadata({
   const category = getCategory(slug);
   if (!category) return {};
 
+  const description = metaDescriptionFor(category.description);
+  const path = `/categories/${category.slug}`;
+
   return {
     title: category.title,
-    description: category.description,
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      type: "website",
+      title: category.title,
+      description,
+      url: absoluteUrl(path),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: category.title,
+      description,
+    },
   };
 }
 
@@ -34,10 +55,35 @@ export default async function CategoryPage({
   if (!category) notFound();
 
   const articles = getArticlesByCategory(category.slug);
+  const path = `/categories/${category.slug}`;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: category.title,
+    description: category.description,
+    url: absoluteUrl(path),
+    inLanguage: "ru-RU",
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: articles.map((article, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: absoluteUrl(`/articles/${article.slug}`),
+        name: article.title,
+      })),
+    },
+  };
 
   return (
     <section className="py-14 sm:py-20">
       <Container>
+        <Breadcrumbs
+          items={[
+            { label: "Главная", href: "/" },
+            { label: category.title, href: path },
+          ]}
+        />
         <p className="text-sm font-semibold uppercase tracking-widest text-clay-dark">
           Раздел
         </p>
@@ -60,6 +106,11 @@ export default async function CategoryPage({
           </p>
         )}
       </Container>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
     </section>
   );
 }

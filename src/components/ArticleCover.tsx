@@ -4,6 +4,7 @@ import CoverPlaceholder from "./CoverPlaceholder";
 
 export default function ArticleCover({
   coverImage,
+  imageAlt,
   label,
   accent,
   className = "",
@@ -11,6 +12,7 @@ export default function ArticleCover({
   priority = false,
 }: {
   coverImage?: string;
+  imageAlt?: string;
   label: string;
   accent: Category["accent"];
   className?: string;
@@ -22,7 +24,7 @@ export default function ArticleCover({
       <div className={`relative overflow-hidden rounded-2xl ${className}`}>
         <Image
           src={coverImage}
-          alt={label}
+          alt={imageAlt ?? label}
           fill
           sizes={sizes ?? "(min-width: 1024px) 33vw, 100vw"}
           className="object-cover"

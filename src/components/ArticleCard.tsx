@@ -13,6 +13,7 @@ export default function ArticleCard({ article }: { article: ArticleSummary }) {
     <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface transition-shadow hover:shadow-lg hover:shadow-ink/5">
       <ArticleCover
         coverImage={article.coverImage}
+        imageAlt={article.coverImageAlt}
         label={article.coverLabel}
         accent={category.accent}
         className="aspect-[4/3] w-full"

@@ -1,12 +1,28 @@
 import type { Metadata } from "next";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Container from "@/components/Container";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { getStaticPage } from "@/lib/pages";
+import { absoluteUrl } from "@/lib/site";
+
+const description =
+  "«Зрелая красота» — независимый проект об уходе, макияже и стиле для женщин 40–60 лет. Без давления и антивозрастной паники.";
 
 export const metadata: Metadata = {
   title: "О проекте",
-  description:
-    "«Зрелая красота» — контентный проект об уходе, макияже и стиле для женщин 40–60 лет. Без давления и антивозрастной паники.",
+  description,
+  alternates: { canonical: "/about" },
+  openGraph: {
+    type: "website",
+    title: "О проекте «Зрелая красота»",
+    description,
+    url: absoluteUrl("/about"),
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "О проекте «Зрелая красота»",
+    description,
+  },
 };
 
 export default function AboutPage() {
@@ -15,6 +31,7 @@ export default function AboutPage() {
   return (
     <div className="py-14 sm:py-20">
       <Container className="max-w-3xl">
+        <Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "О проекте", href: "/about" }]} />
         <p className="text-sm font-semibold uppercase tracking-widest text-clay-dark">
           О проекте
         </p>

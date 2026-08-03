@@ -24,6 +24,9 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  verification: {
+    google: "jYc47eoIqDRwS-9o-00BHj3gmiPZbrRKDXE05FXM8m4",
+  },
 };
 
 const organizationJsonLd = {

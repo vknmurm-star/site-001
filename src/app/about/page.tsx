@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Container from "@/components/Container";
-import NewsletterForm from "@/components/NewsletterForm";
 import { getStaticPage } from "@/lib/pages";
 
 export const metadata: Metadata = {
@@ -25,18 +24,6 @@ export default function AboutPage() {
 
         <div className="prose-article mt-10">
           <MDXRemote source={page.content} />
-        </div>
-
-        <div className="mt-14 rounded-3xl border border-line bg-surface p-8 text-center sm:p-10">
-          <h2 className="font-heading text-2xl font-semibold">
-            Подпишитесь на еженедельную подборку
-          </h2>
-          <p className="mx-auto mt-2 max-w-md text-ink-soft">
-            Одно письмо в неделю с новыми статьями — без спама.
-          </p>
-          <div className="mt-6">
-            <NewsletterForm />
-          </div>
         </div>
       </Container>
     </div>

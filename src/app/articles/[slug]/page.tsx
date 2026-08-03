@@ -5,7 +5,7 @@ import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import Container from "@/components/Container";
 import CategoryPill from "@/components/CategoryPill";
-import CoverPlaceholder from "@/components/CoverPlaceholder";
+import ArticleCover from "@/components/ArticleCover";
 import TableOfContents from "@/components/TableOfContents";
 import ArticleCard from "@/components/ArticleCard";
 import {
@@ -89,10 +89,13 @@ export default async function ArticlePage({
           <span>{article.readingTimeMinutes} мин чтения</span>
         </div>
 
-        <CoverPlaceholder
+        <ArticleCover
+          coverImage={article.coverImage}
           label={article.coverLabel}
           accent={category.accent}
           className="mt-8 aspect-[16/9] w-full"
+          sizes="(min-width: 1024px) 768px, 100vw"
+          priority
         />
       </Container>
 

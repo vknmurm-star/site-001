@@ -13,6 +13,7 @@ export interface ArticleFrontmatter {
   tags: string[];
   date: string;
   coverLabel: string;
+  coverImage?: string;
 }
 
 export interface Article extends ArticleFrontmatter {
@@ -80,6 +81,7 @@ export function toSummary(article: Article): ArticleSummary {
     tags: article.tags,
     date: article.date,
     coverLabel: article.coverLabel,
+    coverImage: article.coverImage,
     readingTimeMinutes: article.readingTimeMinutes,
   };
   return summary;

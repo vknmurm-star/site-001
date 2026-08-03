@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ArticleSummary } from "@/lib/articles";
 import { formatDate } from "@/lib/format";
 import { getCategory } from "@/lib/categories";
-import CoverPlaceholder from "./CoverPlaceholder";
+import ArticleCover from "./ArticleCover";
 import CategoryPill from "./CategoryPill";
 
 export default function ArticleCard({ article }: { article: ArticleSummary }) {
@@ -11,10 +11,12 @@ export default function ArticleCard({ article }: { article: ArticleSummary }) {
 
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface transition-shadow hover:shadow-lg hover:shadow-ink/5">
-      <CoverPlaceholder
+      <ArticleCover
+        coverImage={article.coverImage}
         label={article.coverLabel}
         accent={category.accent}
         className="aspect-[4/3] w-full"
+        sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
       />
       <div className="flex flex-1 flex-col gap-3 p-5 sm:p-6">
         <CategoryPill category={category} className="relative z-10 self-start" />

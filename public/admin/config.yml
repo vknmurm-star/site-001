@@ -35,7 +35,8 @@ collections:
           - { label: "Здоровье и самочувствие", value: "wellness" }
       - { label: "Теги", name: "tags", widget: "list" }
       - { label: "Дата публикации", name: "date", widget: "datetime" }
-      - { label: "Подпись на плейсхолдере обложки", name: "coverLabel", widget: "string" }
+      - { label: "Подпись на плейсхолдере обложки (если нет фото)", name: "coverLabel", widget: "string" }
+      - { label: "Фото обложки", name: "coverImage", widget: "image", required: false }
       - { label: "Текст статьи", name: "body", widget: "markdown" }
 
   - name: "categories"

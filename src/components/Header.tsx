@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -22,12 +23,15 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-cream/90 backdrop-blur">
       <Container className="flex h-20 items-center justify-between">
-        <Link
-          href="/"
-          className="font-heading text-2xl font-semibold tracking-tight text-ink"
-          onClick={() => setOpen(false)}
-        >
-          Зрелая красота
+        <Link href="/" className="shrink-0" onClick={() => setOpen(false)}>
+          <Image
+            src="/images/logo/lockup-web.png"
+            alt="Зрелая красота — на главную"
+            width={900}
+            height={241}
+            priority
+            className="h-9 w-auto sm:h-10"
+          />
         </Link>
 
         <nav

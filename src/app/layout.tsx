@@ -35,7 +35,7 @@ const organizationJsonLd = {
   "@type": "Organization",
   name: SITE_NAME,
   url: SITE_URL,
-  logo: `${SITE_URL}/opengraph-image`,
+  logo: `${SITE_URL}/icon.png`,
   description: SITE_DESCRIPTION,
 };
 

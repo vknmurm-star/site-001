@@ -103,7 +103,9 @@ export default async function ArticlePage({
       name: SITE_NAME,
       logo: {
         "@type": "ImageObject",
-        url: absoluteUrl("/opengraph-image"),
+        url: absoluteUrl("/icon.png"),
+        width: 512,
+        height: 512,
       },
     },
   };

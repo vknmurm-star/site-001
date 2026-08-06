@@ -2,7 +2,11 @@ backend:
   name: github
   repo: vknmurm-star/site-001
   branch: main
+<<<<<<< HEAD
   base_url: https://beauty.an51.su:9443
+=======
+  base_url: https://beauty.an51.su
+>>>>>>> 907ad958395364c6192a9e743b8c5658e765121d
   auth_endpoint: api/auth
 
 # Локальная разработка: запустите `npx decap-server` в отдельном терминале,

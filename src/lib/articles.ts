@@ -35,6 +35,18 @@ export interface Heading {
   id: string;
 }
 
+function normalizeDate(value: unknown): string {
+  // Frontmatter YAML вида `date: 2026-05-12` (без кавычек) парсится
+  // js-yaml/gray-matter в объект Date, а не строку — несмотря на тип
+  // ArticleFrontmatter.date: string. Без этой нормализации такой Date
+  // "утекает" как есть и ломает article:published_time и <time dateTime>
+  // (Next.js/React не приводят его к строке автоматически).
+  if (value instanceof Date) {
+    return value.toISOString().slice(0, 10);
+  }
+  return String(value);
+}
+
 function readingTimeFor(content: string): number {
   const words = content.trim().split(/\s+/).filter(Boolean).length;
   const wordsPerMinute = 180;
@@ -56,6 +68,7 @@ export function getAllArticles(): Article[] {
 
     return {
       ...fm,
+      date: normalizeDate(fm.date),
       slug,
       content,
       readingTimeMinutes: readingTimeFor(content),

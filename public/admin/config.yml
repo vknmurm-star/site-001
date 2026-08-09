@@ -107,6 +107,11 @@ collections:
         fields:
           - { label: "Надпись над заголовком", name: "eyebrow", widget: "string" }
           - { label: "Заголовок", name: "heading", widget: "string" }
+          - label: "Заголовок — акцентная часть (курсивом, терракотовым)"
+            name: "headingAccent"
+            widget: "string"
+            required: false
+            hint: "Выводится в конце заголовка курсивом акцентным цветом. Например: «после 40». Можно оставить пустым."
           - { label: "Подзаголовок", name: "subheading", widget: "text" }
           - { label: "Текст основной кнопки", name: "primaryCtaLabel", widget: "string" }
           - { label: "Ссылка основной кнопки", name: "primaryCtaHref", widget: "string" }

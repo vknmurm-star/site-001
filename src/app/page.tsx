@@ -10,19 +10,23 @@ import homepage from "../../content/settings/homepage.json";
 const description =
   "Практичные разборы ухода за кожей, макияжа и стиля для женщин 40–60 лет — без давления, паники и обещаний вернуть кожу в 25.";
 
+const fullHeading = [homepage.heading, homepage.headingAccent]
+  .filter(Boolean)
+  .join(" ");
+
 export const metadata: Metadata = {
-  title: homepage.heading,
+  title: fullHeading,
   description,
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
-    title: homepage.heading,
+    title: fullHeading,
     description,
     url: absoluteUrl("/"),
   },
   twitter: {
     card: "summary_large_image",
-    title: homepage.heading,
+    title: fullHeading,
     description,
   },
 };
@@ -38,8 +42,16 @@ export default function HomePage() {
             <p className="text-sm font-semibold uppercase tracking-widest text-clay-dark">
               {homepage.eyebrow}
             </p>
-            <h1 className="mt-4 font-heading text-4xl font-semibold leading-tight sm:text-5xl">
+            <h1 className="mt-4 font-heading text-4xl font-semibold leading-tight text-ink sm:text-5xl">
               {homepage.heading}
+              {homepage.headingAccent && (
+                <>
+                  {" "}
+                  <span className="italic text-clay-dark">
+                    {homepage.headingAccent}
+                  </span>
+                </>
+              )}
             </h1>
             <p className="mt-6 max-w-xl text-lg text-ink-soft">
               {homepage.subheading}

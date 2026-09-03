@@ -11,7 +11,7 @@
 ```
 GITHUB_OAUTH_CLIENT_ID=...
 GITHUB_OAUTH_CLIENT_SECRET=...
-SITE_URL=https://beauty.an51.su
+SITE_URL=https://women.an51.su
 ```
 
 Сайт работает на стандартном 443 порту (HTTPS через certbot) — порт `:9443`,
@@ -48,7 +48,7 @@ backend:
   name: github
   repo: vknmurm-star/site-001
   branch: main
-  base_url: https://beauty.an51.su
+  base_url: https://women.an51.su
   auth_endpoint: api/auth
 ```
 
@@ -132,7 +132,7 @@ nginx или системных настроек будь аккуратен, ч
 - перед любым `systemctl reload nginx` — сначала `nginx -t`;
 - после reload — проверь, что ОБА сайта отвечают 200:
   ```
-  curl -s -o /dev/null -w "%{http_code}\n" https://beauty.an51.su/
+  curl -s -o /dev/null -w "%{http_code}\n" https://women.an51.su/
   curl -s -o /dev/null -w "%{http_code}\n" https://market.an51.su/
   ```
 

@@ -2,7 +2,7 @@ backend:
   name: github
   repo: vknmurm-star/site-001
   branch: main
-  base_url: https://beauty.an51.su
+  base_url: https://women.an51.su
   auth_endpoint: api/auth
 # Локальная разработка: запустите `npx decap-server` в отдельном терминале,
 # и админка будет писать файлы прямо на диск — без GitHub и без OAuth.

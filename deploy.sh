@@ -21,4 +21,7 @@ npm run build
 echo "=== Перезапуск сайта ==="
 pm2 restart site-001
 
+echo "=== Отправка в IndexNow ==="
+python3 scripts/indexnow-submit.py || echo "IndexNow: отправка не удалась (не критично для деплоя)"
+
 echo "=== Готово! ==="
